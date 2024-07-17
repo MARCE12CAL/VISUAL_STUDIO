@@ -1,0 +1,212 @@
+//diagrma relacional
+//formato
+@startuml
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+!define foreign_key(x) #x#
+table(VEHICULO) {
+primary_key(idVehiculo) : INT
+marca : VARCHAR(50)
+modelo : VARCHAR(50)
+tipo : VARCHAR(30)
+capacidadPasajeros : INT
+}
+table(USUARIO) {
+primary_key(idUsuario) : INT
+nombre : VARCHAR(100)
+correo : VARCHAR(100)
+contraseña : VARCHAR(255)
+tipoUsuario : VARCHAR(20)
+}
+table(RESERVA) {
+primary_key(idReserva) : INT
+foreign_key(idUsuario) : INT
+foreign_key(idVehiculo) : INT
+fechaInicio : DATE
+fechaFin : DATE
+estado : VARCHAR(20)
+tipoServicio : ENUM
+}
+table(PAGO) {
+primary_key(idPago) : INT
+foreign_key(idReserva) : INT
+monto : DECIMAL(10,2)
+fechaPago : DATE
+estado : VARCHAR(20)
+}
+table(TICKET_SOPORTE) {
+primary_key(idTicket) : INT
+foreign_key(idUsuario) : INT
+asunto : VARCHAR(100)
+descripcion : TEXT
+estado : VARCHAR(20)
+}
+table(SUGERENCIA) {
+primary_key(idSugerencia) : INT
+foreign_key(idUsuario) : INT
+descripcion : TEXT
+estado : VARCHAR(20)
+}
+RESERVA::idUsuario }-- USUARIO::idUsuario
+RESERVA::idVehiculo }-- VEHICULO::idVehiculo
+PAGO::idReserva }-- RESERVA::idReserva
+TICKET_SOPORTE::idUsuario }-- USUARIO::idUsuario
+SUGERENCIA::idUsuario }-- USUARIO::idUsuario
+@enduml
+
+
+//*****************************************************
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagrama Relacional</title>
+</head>
+<body>
+    <h2>Diagrama Relacional</h2>
+    <p>Relaciones entre entidades:</p>
+    <ul>
+        <li>Administradores (1) --- (N) Coches</li>
+        <li>Coches (1) --- (N) Carrusel</li>
+        <li>Coches (1) --- (N) Coches_Instalaciones (N) --- (1) Instalaciones</li>
+        <li>Coches (1) --- (N) Coches_Servicios (N) --- (1) Servicios</li>
+        <li>Usuarios (1) --- (N) Alquileres (1) --- (1) Coches</li>
+    </ul>
+</body>
+</html>
+////*******************************************************
+@startuml
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+!define foreign_key(x) #x#
+
+table(ADMINISTRADORES) {
+    primary_key(id_admin) : INT
+    nombre_admin : VARCHAR(50)
+    contraseña_admin : VARCHAR(255)
+}
+
+table(COCHES) {
+    primary_key(id_coche) : INT
+    marca : VARCHAR(50)
+    modelo : VARCHAR(50)
+    año : INT
+    color : VARCHAR(20)
+    tarifa_alquiler : DECIMAL(10,2)
+}
+
+table(CARRUSEL) {
+    primary_key(id_imagen) : INT
+    imagen : VARCHAR(200)
+    foreign_key(id_coche) : INT
+}
+
+table(INSTALACIONES) {
+    primary_key(id_instalacion) : INT
+    icono : VARCHAR(50)
+    nombre : VARCHAR(100)
+    descripcion : VARCHAR(200)
+}
+
+table(COCHES_INSTALACIONES) {
+    foreign_key(id_coche) : INT
+    foreign_key(id_instalacion) : INT
+}
+
+table(SERVICIOS) {
+    primary_key(id_servicio) : INT
+    nombre : VARCHAR(200)
+}
+
+table(COCHES_SERVICIOS) {
+    foreign_key(id_coche) : INT
+    foreign_key(id_servicio) : INT
+}
+
+table(USUARIOS) {
+    primary_key(id_usuario) : INT
+    nombre_usuario : VARCHAR(50)
+    contraseña : VARCHAR(255)
+    email : VARCHAR(100)
+    telefono : VARCHAR(15)
+}
+
+table(ALQUILERES) {
+    primary_key(id_alquiler) : INT
+    foreign_key(id_usuario) : INT
+    foreign_key(id_coche) : INT
+    fecha_inicio : DATE
+    fecha_fin : DATE
+    coste_total : DECIMAL(10,2)
+}
+
+COCHES::id_coche }-- ADMINISTRADORES::id_admin : "1" - "N"
+CARRUSEL::id_coche }-- COCHES::id_coche : "1" - "N"
+COCHES_INSTALACIONES::id_coche }-- COCHES::id_coche : "1" - "N"
+COCHES_INSTALACIONES::id_instalacion }-- INSTALACIONES::id_instalacion : "N" - "1"
+COCHES_SERVICIOS::id_coche }-- COCHES::id_coche : "1" - "N"
+COCHES_SERVICIOS::id_servicio }-- SERVICIOS::id_servicio : "N" - "1"
+ALQUILERES::id_usuario }-- USUARIOS::id_usuario : "1" - "N"
+ALQUILERES::id_coche }-- COCHES::id_coche : "1" - "1"
+@enduml
+**********************************
+Aquí está el diagrama para el Mecánico:
+@startuml
+<style>
+componentDiagram {
+  backgroundColor LightGreen
+  lineThickness 1
+  borderColor DarkGreen
+}
+</style>
+
+skinparam stereotypeCBackgroundColor LightSkyBlue
+skinparam stereotypeCBorderColor DeepSkyBlue
+
+storage "Mecánico" as mechanic
+storage "Base de Datos" as db
+
+agent "Registrar Mantenimiento" as register_maintenance
+agent "Realizar Inspección" as perform_inspection
+agent "Gestionar Reparaciones" as manage_repairs
+agent "Actualizar Inventario" as update_inventory
+agent "Ver Historial de Vehículos" as view_vehicle_history
+
+node "Mantenimientos" as maintenance
+node "Inspecciones" as inspections
+node "Reparaciones" as repairs
+node "Inventario_Piezas" as inventory
+node "Coches" as cars
+
+mechanic --> register_maintenance : "Registrar mantenimiento"
+register_maintenance --> maintenance : "Guardar datos"
+maintenance --> register_maintenance : "Confirmar registro"
+register_maintenance --> mechanic : "Confirmación"
+
+mechanic --> perform_inspection : "Realizar inspección"
+perform_inspection --> inspections : "Guardar resultados"
+inspections --> perform_inspection : "Confirmar registro"
+perform_inspection --> mechanic : "Informe de inspección"
+
+mechanic --> manage_repairs : "Gestionar reparaciones"
+manage_repairs --> repairs : "Actualizar reparaciones"
+repairs --> manage_repairs : "Datos de reparaciones"
+manage_repairs --> mechanic : "Estado de reparaciones"
+
+mechanic --> update_inventory : "Actualizar inventario"
+update_inventory --> inventory : "Modificar stock"
+inventory --> update_inventory : "Estado actual"
+update_inventory --> mechanic : "Inventario actualizado"
+
+mechanic --> view_vehicle_history : "Solicitar historial"
+view_vehicle_history --> cars : "Consultar vehículo"
+view_vehicle_history --> maintenance : "Consultar mantenimientos"
+view_vehicle_history --> inspections : "Consultar inspecciones"
+view_vehicle_history --> repairs : "Consultar reparaciones"
+cars --> view_vehicle_history : "Datos del vehículo"
+maintenance --> view_vehicle_history : "Historial de mantenimientos"
+inspections --> view_vehicle_history : "Historial de inspecciones"
+repairs --> view_vehicle_history : "Historial de reparaciones"
+view_vehicle_history --> mechanic : "Mostrar historial completo"
+
+@enduml

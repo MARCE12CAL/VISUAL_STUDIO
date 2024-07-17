@@ -1,0 +1,27 @@
+@startuml
+external Storage
+
+agent "Usuario" as User
+entity "Sistema de Alquiler de Coches" as System
+
+(User) --> (System) : Inicia sesión
+
+== Selección de Coche ==
+activate System
+System --> (User) : Muestra coches disponibles
+(User) --> (System) : Selecciona un coche
+
+== Registro de Alquiler ==
+activate System
+System --> (User) : Ingresa fechas de inicio y fin
+(User) --> (System) : Confirma la operación
+
+== Generación de Factura ==
+activate System
+System --> (System) : Calcula coste total
+System --> (User) : Genera factura
+
+(User) --> (System) : Recibe confirmación de alquiler
+deactivate System
+
+@enduml

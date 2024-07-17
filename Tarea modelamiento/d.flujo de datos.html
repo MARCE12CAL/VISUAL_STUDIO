@@ -1,0 +1,454 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//************************************
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagrama de Flujo de Datos Nivel 2</title>
+    <style>
+        .process { border: 1px solid #000; padding: 10px; margin: 10px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <h2>Diagrama de Flujo de Datos Nivel 2</h2>
+    <div class="process">
+        <h3>Registro de Usuario</h3>
+        <p>Entrada: Datos del usuario</p>
+        <p>Salida: Confirmación de registro</p>
+        <p>Almacenamiento: Tabla usuarios</p>
+    </div>
+    <div class="process">
+        <h3>Alquiler de Coche</h3>
+        <p>Entrada: Datos del alquiler</p>
+        <p>Salida: Confirmación de alquiler</p>
+        <p>Almacenamiento: Tabla alquileres</p>
+    </div>
+    <div class="process">
+        <h3>Gestión de Coches</h3>
+        <p>Entrada: Datos del coche</p>
+        <p>Salida: Confirmación de gestión</p>
+        <p>Almacenamiento: Tabla coches</p>
+    </div>
+</body>
+</html>
+
+//////******************************************
+<PLAINTEXt></PLAINTEXt>
+@startdfd
+
+process "Registro de Usuario" as UserRegistration {
+  input "Datos del usuario" as UserData
+  output "Confirmación de registro" as RegistrationConfirmation
+  storage "Tabla usuarios" as UsersTable
+}
+
+process "Alquiler de Coche" as CarRental {
+  input "Datos del alquiler" as RentalData
+  output "Confirmación de alquiler" as RentalConfirmation
+  storage "Tabla alquileres" as RentalsTable
+}
+
+process "Gestión de Coches" as CarManagement {
+  input "Datos del coche" as CarData
+  output "Confirmación de gestión" as ManagementConfirmation
+  storage "Tabla coches" as CarsTable
+}
+
+@enddfd
+********************************///////////////
+UTILIZADO3
+@startuml
+<style>
+componentDiagram {
+  BackGroundColor white
+  LineThickness 1
+  LineColor black
+}
+circle {
+  FontSize 12
+  FontColor black
+}
+</style>
+
+storage "Usuarios" as usuarios 
+storage "Administradores" as admins 
+component "Gestión de Usuarios" as gestionUsuarios 
+component "Gestión de Coches" as gestionCoches 
+component "Gestión de Alquileres" as gestionAlquileres 
+node "Tabla\nUsuarios" as bdUsuarios 
+node "Tabla\nCoches" as bdCoches 
+node "Tabla\nAlquileres" as bdAlquileres 
+
+usuarios --> gestionUsuarios : "Registro/Actualización"
+admins --> gestionUsuarios : "Administración"
+gestionUsuarios --> bdUsuarios : "Almacenar datos"
+
+usuarios --> gestionCoches : "Consulta"
+admins --> gestionCoches : "Gestión"
+gestionCoches --> bdCoches : "Almacenar datos"
+
+usuarios --> gestionAlquileres : "Solicitud"
+gestionAlquileres --> bdAlquileres : "Registrar alquiler"
+gestionAlquileres --> bdCoches : "Actualizar disponibilidad"
+gestionAlquileres --> bdUsuarios : "Actualizar historial"
+
+@enduml
+**********************
+@startuml
+<style>
+componentDiagram {
+  BackGroundColor white
+  LineThickness 1
+  LineColor black
+}
+circle {
+  FontSize 12
+  FontColor black
+}
+</style>
+
+storage "Usuarios" as usuarios 
+storage "Administradores" as admins 
+component "Gestión de Usuarios" as gestionUsuarios 
+component "Gestión de Coches" as gestionCoches 
+component "Gestión de Alquileres" as gestionAlquileres 
+node "Tabla\nUsuarios" as bdUsuarios 
+node "Tabla\nCoches" as bdCoches 
+node "Tabla\nAlquileres" as bdAlquileres 
+
+usuarios --> gestionUsuarios : "Registro/Actualización"
+admins --> gestionUsuarios : "Administración"
+gestionUsuarios --> bdUsuarios : "Almacenar datos"
+
+usuarios --> gestionCoches : "Consulta"
+admins --> gestionCoches : "Gestión"
+gestionCoches --> bdCoches : "Almacenar datos"
+
+usuarios --> gestionAlquileres : "Solicitud"
+gestionAlquileres --> bdAlquileres : "Registrar alquiler"
+gestionAlquileres --> bdCoches : "Actualizar disponibilidad"
+gestionAlquileres --> bdUsuarios : "Actualizar historial"
+
+@enduml*********
+*************************
+USUARIO 
+@startuml
+<style>
+componentDiagram {
+  backgroundColor PaleGreen
+  lineThickness 1
+  borderColor Red
+}
+</style>
+
+' Definición de estereotipos
+skinparam stereotypeCBackgroundColor LightBlue
+skinparam stereotypeCBorderColor Blue
+
+' Entidades externas
+storage "Usuario" as user
+storage "Base de Datos" as db
+
+' Procesos
+agent "Verificar Credenciales" as verify_cred
+agent "Consultar Disponibilidad" as check_avail
+agent "Calcular Coste" as calc_cost
+agent "Registrar Alquiler" as reg_rental
+agent "Generar Factura" as gen_invoice
+
+' Almacenes de datos
+node "Coches Disponibles" as avail_cars
+node "Alquileres" as rentals
+node "Facturas" as invoices
+
+' Flujos de datos
+user --> verify_cred : "Credenciales"
+verify_cred --> db : "Consulta de usuario"
+db --> verify_cred : "Datos de usuario"
+verify_cred --> user : "Acceso concedido"
+
+user --> check_avail : "Solicita coches disponibles"
+check_avail --> avail_cars : "Consulta disponibilidad"
+avail_cars --> check_avail : "Lista de coches"
+check_avail --> user : "Muestra coches disponibles"
+
+user --> calc_cost : "Selecciona coche y fechas"
+calc_cost --> avail_cars : "Verifica disponibilidad"
+avail_cars --> calc_cost : "Confirma disponibilidad"
+calc_cost --> user : "Muestra coste"
+
+user --> reg_rental : "Confirma alquiler"
+reg_rental --> rentals : "Registra alquiler"
+rentals --> reg_rental : "Confirma registro"
+
+reg_rental --> gen_invoice : "Datos de alquiler"
+gen_invoice --> invoices : "Almacena factura"
+gen_invoice --> user : "Muestra factura"
+
+user --> db : "Confirmación final"
+db --> user : "Confirmación de transacción"
+
+@enduml
+***************************
+CLIENTE
+@startuml
+<style>
+componentDiagram {
+  backgroundColor PaleGreen
+  lineThickness 1
+  borderColor Red
+}
+</style>
+
+' Definición de estereotipos
+skinparam stereotypeCBackgroundColor LightBlue
+skinparam stereotypeCBorderColor Blue
+
+' Entidades externas
+storage "Cliente" as client
+storage "Base de Datos" as db
+
+' Procesos
+agent "Registrar Usuario" as register_user
+agent "Iniciar Sesión" as login
+agent "Buscar Coches" as search_cars
+agent "Realizar Reserva" as make_reservation
+agent "Realizar Pago" as make_payment
+agent "Enviar Consulta" as send_query
+
+' Almacenes de datos
+node "Usuarios" as users
+node "Coches" as cars
+node "Alquileres" as rentals
+node "Gestion_Reservas" as reservations
+node "Gestion_Pagos" as payments
+node "Consultas_Usuarios" as queries
+
+' Flujos de datos
+client --> register_user : "Datos de registro"
+register_user --> users : "Guardar nuevo usuario"
+users --> register_user : "Confirmar registro"
+register_user --> client : "Registro exitoso"
+
+client --> login : "Credenciales"
+login --> users : "Verificar usuario"
+users --> login : "Datos de usuario"
+login --> client : "Sesión iniciada"
+
+client --> search_cars : "Criterios de búsqueda"
+search_cars --> cars : "Consultar coches disponibles"
+cars --> search_cars : "Lista de coches"
+search_cars --> client : "Mostrar coches disponibles"
+
+client --> make_reservation : "Seleccionar coche y fechas"
+make_reservation --> cars : "Verificar disponibilidad"
+cars --> make_reservation : "Confirmar disponibilidad"
+make_reservation --> reservations : "Crear reserva"
+reservations --> make_reservation : "Confirmar reserva"
+make_reservation --> client : "Detalles de reserva"
+
+client --> make_payment : "Realizar pago"
+make_payment --> payments : "Procesar pago"
+payments --> make_payment : "Confirmar pago"
+make_payment --> client : "Recibo de pago"
+
+client --> send_query : "Enviar consulta"
+send_query --> queries : "Guardar consulta"
+queries --> send_query : "Confirmar recepción"
+send_query --> client : "Confirmación de consulta enviada"
+
+@enduml
+***********************************
+USUARIO2
+@startuml
+<style>
+componentDiagram {
+  backgroundColor LightYellow
+  lineThickness 1
+  borderColor DarkOrange
+}
+</style>
+
+skinparam stereotypeCBackgroundColor LightBlue
+skinparam stereotypeCBorderColor Blue
+
+storage "Usuario" as user
+storage "Base de Datos" as db
+
+agent "Iniciar Sesión" as login
+agent "Actualizar Perfil" as update_profile
+agent "Ver Historial" as view_history
+agent "Cambiar Contraseña" as change_password
+
+node "Usuarios" as users
+node "Alquileres" as rentals
+node "Historial_Pagos" as payment_history
+
+user --> login : "Credenciales"
+login --> users : "Verificar usuario"
+users --> login : "Datos de usuario"
+login --> user : "Sesión iniciada"
+
+user --> update_profile : "Nuevos datos"
+update_profile --> users : "Actualizar información"
+users --> update_profile : "Confirmar actualización"
+update_profile --> user : "Perfil actualizado"
+
+user --> view_history : "Solicitar historial"
+view_history --> rentals : "Consultar alquileres"
+view_history --> payment_history : "Consultar pagos"
+rentals --> view_history : "Historial de alquileres"
+payment_history --> view_history : "Historial de pagos"
+view_history --> user : "Mostrar historial"
+
+user --> change_password : "Nueva contraseña"
+change_password --> users : "Actualizar contraseña"
+users --> change_password : "Confirmar cambio"
+change_password --> user : "Contraseña actualizada"
+
+@enduml
+***************************************
+Diagrama de flujo de datos para Administrador:
+@startuml
+<style>
+componentDiagram {
+  backgroundColor LightCyan
+  lineThickness 1
+  borderColor DarkBlue
+}
+</style>
+
+skinparam stereotypeCBackgroundColor LightGreen
+skinparam stereotypeCBorderColor Green
+
+storage "Administrador" as admin
+storage "Base de Datos" as db
+
+agent "Gestionar Usuarios" as manage_users
+agent "Gestionar Coches" as manage_cars
+agent "Gestionar Alquileres" as manage_rentals
+agent "Configurar Sistema" as configure_system
+agent "Ver Estadísticas" as view_stats
+
+node "Usuarios" as users
+node "Coches" as cars
+node "Alquileres" as rentals
+node "Configuracion" as config
+node "Historial_Pagos" as payment_history
+
+admin --> manage_users : "Acciones CRUD"
+manage_users --> users : "Modificar usuarios"
+users --> manage_users : "Datos de usuarios"
+manage_users --> admin : "Confirmación"
+
+admin --> manage_cars : "Acciones CRUD"
+manage_cars --> cars : "Modificar coches"
+cars --> manage_cars : "Datos de coches"
+manage_cars --> admin : "Confirmación"
+
+admin --> manage_rentals : "Gestionar alquileres"
+manage_rentals --> rentals : "Modificar alquileres"
+rentals --> manage_rentals : "Datos de alquileres"
+manage_rentals --> admin : "Confirmación"
+
+admin --> configure_system : "Cambiar configuración"
+configure_system --> config : "Actualizar configuración"
+config --> configure_system : "Configuración actual"
+configure_system --> admin : "Confirmación"
+
+admin --> view_stats : "Solicitar estadísticas"
+view_stats --> users : "Consultar usuarios"
+view_stats --> cars : "Consultar coches"
+view_stats --> rentals : "Consultar alquileres"
+view_stats --> payment_history : "Consultar pagos"
+view_stats --> admin : "Mostrar estadísticas"
+
+@enduml
+******************************************
+Diagrama de flujo de datos para Contador:
+@startuml
+<style>
+componentDiagram {
+  backgroundColor LightPink
+  lineThickness 1
+  borderColor DarkRed
+}
+</style>
+
+skinparam stereotypeCBackgroundColor LightGoldenRodYellow
+skinparam stereotypeCBorderColor Gold
+
+storage "Contador" as accountant
+storage "Base de Datos" as db
+
+agent "Gestionar Pagos" as manage_payments
+agent "Procesar Nómina" as process_payroll
+agent "Generar Informes" as generate_reports
+agent "Gestionar Garantías" as manage_guarantees
+agent "Gestionar Seguros" as manage_insurance
+
+node "Gestion_Pagos" as payments
+node "Procesos_Nomina" as payroll
+node "Historial_Pagos" as payment_history
+node "Gestion_Garantias" as guarantees
+node "Gestion_Seguros" as insurance
+node "Usuarios" as users
+
+accountant --> manage_payments : "Gestionar pagos"
+manage_payments --> payments : "Actualizar pagos"
+payments --> manage_payments : "Datos de pagos"
+manage_payments --> accountant : "Confirmación"
+
+accountant --> process_payroll : "Procesar nómina"
+process_payroll --> payroll : "Actualizar nómina"
+process_payroll --> users : "Consultar empleados"
+payroll --> process_payroll : "Datos de nómina"
+users --> process_payroll : "Datos de empleados"
+process_payroll --> accountant : "Nómina procesada"
+
+accountant --> generate_reports : "Solicitar informes"
+generate_reports --> payments : "Consultar pagos"
+generate_reports --> payroll : "Consultar nómina"
+generate_reports --> payment_history : "Consultar historial"
+generate_reports --> accountant : "Mostrar informes"
+
+accountant --> manage_guarantees : "Gestionar garantías"
+manage_guarantees --> guarantees : "Actualizar garantías"
+guarantees --> manage_guarantees : "Datos de garantías"
+manage_guarantees --> accountant : "Confirmación"
+
+accountant --> manage_insurance : "Gestionar seguros"
+manage_insurance --> insurance : "Actualizar seguros"
+insurance --> manage_insurance : "Datos de seguros"
+manage_insurance --> accountant : "Confirmación"
+
+@enduml
+****************************

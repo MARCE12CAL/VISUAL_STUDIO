@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagrama de Flujo de Datos en PHP y HTML con CSS</title>
+    <style>
+        .container {
+            margin: 20px auto;
+            width: 800px;
+            font-family: Arial, sans-serif;
+        }
+        .proceso {
+            width: 150px;
+            height: 80px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            text-align: center;
+            line-height: 80px;
+            position: relative;
+            float: left;
+            margin-right: 20px;
+        }
+        .proceso::after {
+            content: "";
+            display: block;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #ccc;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .clear {
+            clear: both;
+        }
+        .formulario {
+            margin-top: 40px;
+        }
+        .formulario label {
+            display: inline-block;
+            width: 120px;
+            text-align: right;
+            margin-right: 10px;
+        }
+        .formulario input[type="text"],
+        .formulario input[type="password"] {
+            width: 200px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        .formulario button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .mensaje {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="proceso">Inicio</div>
+        <div class="proceso">Entrada de Datos</div>
+        <div class="proceso">Procesamiento en PHP</div>
+        <div class="proceso">Validación de Usuario</div>
+        <div class="proceso">Acceso a Base de Datos</div>
+        <div class="proceso">Guardar Registro</div>
+        <div class="proceso">Fin</div>
+        <div class="clear"></div>
+
+        <div class="formulario">
+            <h2>Formulario de Inicio de Sesión</h2>
+            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="usuario" required><br><br>
+                
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" required><br><br>
+                
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+
+            <?php
+            // Simulación de procesamiento en PHP
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $usuario = $_POST['usuario'];
+                $contrasena = $_POST['contrasena'];
+
+                // Simulación de validación de usuario (ejemplo básico)
+                if ($usuario == 'admin' && $contrasena == 'password') {
+                    echo "<div class='mensaje'>Inicio de sesión exitoso para $usuario</div>";
+
+                    // Simulación de guardar registro
+                    guardarRegistro($usuario, 'inicio_sesion');
+                } else {
+                    echo "<div class='mensaje'>Error: Usuario o contraseña incorrectos</div>";
+                }
+            }
+
+            // Función para guardar registro de actividades
+            function guardarRegistro($usuario, $accion) {
+                // Aquí podrías implementar el código para guardar en la base de datos o archivo de registro
+                echo "<div class='mensaje'>Registro guardado: Usuario $usuario realizó la acción $accion</div>";
+            }
+            ?>
+        </div>
+    </div>
+</body>
+</html>

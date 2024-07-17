@@ -1,0 +1,890 @@
+//caso de Uso
+//formato
+@startuml
+
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+actor Usuario as User
+actor Chofer as Driver
+
+rectangle "Sistema de Renta de Vehículos" {
+    Admin --> (Administrar Carros)
+    Admin --> (Gestionar Usuarios)
+    Admin --> (Gestionar Reservas)
+    Admin --> (Gestionar Tickets de Soporte)
+    Admin --> (Gestionar Sugerencias)
+    
+    User --> (Gestionar Reservas)
+    User --> (Gestionar Pagos)
+    User --> (Gestionar Tickets de Soporte)
+    User --> (Gestionar Sugerencias)
+    
+    Driver --> (Gestionar Reservas)
+    
+    (Administrar Carros) <|-- (Agregar Carro)
+    (Administrar Carros) <|-- (Editar Carro)
+    (Administrar Carros) <|-- (Eliminar Carro)
+    
+    (Gestionar Reservas) <|-- (Crear Reserva)
+    (Gestionar Reservas) <|-- (Modificar Reserva)
+    (Gestionar Reservas) <|-- (Cancelar Reserva)
+    (Gestionar Reservas) <|-- (Asignar Chofer)
+    
+    (Gestionar Pagos) <|-- (Realizar Pago)
+    (Gestionar Pagos) <|-- (Verificar Pago)
+    
+    (Gestionar Tickets de Soporte) <|-- (Crear Ticket)
+    (Gestionar Tickets de Soporte) <|-- (Actualizar Ticket)
+    (Gestionar Tickets de Soporte) <|-- (Cerrar Ticket)
+    
+    (Gestionar Sugerencias) <|-- (Crear Sugerencia)
+    (Gestionar Sugerencias) <|-- (Revisar Sugerencia)
+    (Gestionar Sugerencias) <|-- (Implementar Sugerencia)
+    
+    (Crear Reserva) ..> (Verificar Disponibilidad) : <<include>>
+    (Realizar Pago) ..> (Procesar Pago) : <<include>>
+    
+    (Modificar Reserva) ..> (Verificar Disponibilidad) : <<include>>
+    
+    (Asignar Chofer) <.. (Verificar Disponibilidad de Chofer) : <<extend>>
+    (Crear Ticket) <.. (Adjuntar Archivo) : <<extend>>
+    (Implementar Sugerencia) <.. (Notificar Usuario) : <<extend>>
+}
+
+@enduml
+
+//*****************
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagrama de Casos de Uso</title>
+    <style>
+        .actor { font-weight: bold; }
+        .use-case { margin-left: 20px; }
+    </style>
+</head>
+<body>
+    <h2>Diagrama de Casos de Uso</h2>
+    <div>
+        <span class="actor">Administrador</span>
+        <ul>
+            <li class="use-case">Gestionar coches</li>
+            <li class="use-case">Gestionar instalaciones</li>
+            <li class="use-case">Gestionar servicios</li>
+            <li class="use-case">Visualizar estadísticas de alquiler</li>
+        </ul>
+    </div>
+    <div>
+        <span class="actor">Usuario</span>
+        <ul>
+            <li class="use-case">Registrarse</li>
+            <li class="use-case">Iniciar sesión</li>
+            <li class="use-case">Buscar coches</li>
+            <li class="use-case">Realizar alquiler</li>
+            <li class="use-case">Ver historial de alquileres</li>
+        </ul>
+    </div>
+</body>
+</html>
+
+//*************************************
+PLAINTEXT
+@startuml
+
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+actor Usuario as User
+actor Chofer as Driver
+
+rectangle "Sistema de Renta de Vehículos" {
+    Admin --> (Administrar Carros)
+    Admin --> (Gestionar Usuarios)
+    Admin --> (Gestionar Reservas)
+    Admin --> (Gestionar Tickets de Soporte)
+    Admin --> (Gestionar Sugerencias)
+    
+    User --> (Gestionar Reservas)
+    User --> (Gestionar Pagos)
+    User --> (Gestionar Tickets de Soporte)
+    User --> (Gestionar Sugerencias)
+    
+    Driver --> (Gestionar Reservas)
+    
+    (Administrar Carros) <|-- (Agregar Carro)
+    (Administrar Carros) <|-- (Editar Carro)
+    (Administrar Carros) <|-- (Eliminar Carro)
+    
+    (Gestionar Reservas) <|-- (Crear Reserva)
+    (Gestionar Reservas) <|-- (Modificar Reserva)
+    (Gestionar Reservas) <|-- (Cancelar Reserva)
+    (Gestionar Reservas) <|-- (Asignar Chofer)
+    
+    (Gestionar Pagos) <|-- (Realizar Pago)
+    (Gestionar Pagos) <|-- (Verificar Pago)
+    
+    (Gestionar Tickets de Soporte) <|-- (Crear Ticket)
+    (Gestionar Tickets de Soporte) <|-- (Actualizar Ticket)
+    (Gestionar Tickets de Soporte) <|-- (Cerrar Ticket)
+    
+    (Gestionar Sugerencias) <|-- (Crear Sugerencia)
+    (Gestionar Sugerencias) <|-- (Revisar Sugerencia)
+    (Gestionar Sugerencias) <|-- (Implementar Sugerencia)
+    
+    (Crear Reserva) ..> (Verificar Disponibilidad) : <<include>>
+    (Realizar Pago) ..> (Procesar Pago) : <<include>>
+    
+    (Modificar Reserva) ..> (Verificar Disponibilidad) : <<include>>
+    
+    (Asignar Chofer) <.. (Verificar Disponibilidad de Chofer) : <<extend>>
+    (Crear Ticket) <.. (Adjuntar Archivo) : <<extend>>
+    (Implementar Sugerencia) <.. (Notificar Usuario) : <<extend>>
+}
+
+@enduml
+
+GENERAL 
+@startuml
+
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+actor Usuario as User
+actor Chofer as Driver
+
+rectangle "Sistema de Renta de Vehículos" {
+    Admin --> (Administrar Carros)
+    Admin --> (Gestionar Usuarios)
+    Admin --> (Gestionar Reservas)
+    Admin --> (Gestionar Pagos)
+    Admin --> (Gestionar Tickets de Soporte)
+    Admin --> (Gestionar Sugerencias)
+    
+    User --> (Gestionar Reservas)
+    User --> (Gestionar Pagos)
+    User --> (Gestionar Tickets de Soporte)
+    User --> (Gestionar Sugerencias)
+    
+    Driver --> (Gestionar Reservas)
+    
+    (Administrar Carros) <|-- (Agregar Carro)
+    (Administrar Carros) <|-- (Editar Carro)
+    (Administrar Carros) <|-- (Eliminar Carro)
+    
+    (Gestionar Usuarios) <|-- (Agregar Usuario)
+    (Gestionar Usuarios) <|-- (Editar Usuario)
+    (Gestionar Usuarios) <|-- (Eliminar Usuario)
+    (Gestionar Usuarios) <|-- (Ver Usuarios)
+    
+    (Gestionar Reservas) <|-- (Crear Reserva)
+    (Gestionar Reservas) <|-- (Modificar Reserva)
+    (Gestionar Reservas) <|-- (Cancelar Reserva)
+    (Gestionar Reservas) <|-- (Asignar Chofer)
+    
+    (Gestionar Pagos) <|-- (Realizar Pago)
+    (Gestionar Pagos) <|-- (Verificar Pago)
+    
+    (Gestionar Tickets de Soporte) <|-- (Crear Ticket)
+    (Gestionar Tickets de Soporte) <|-- (Actualizar Ticket)
+    (Gestionar Tickets de Soporte) <|-- (Cerrar Ticket)
+    
+    (Gestionar Sugerencias) <|-- (Crear Sugerencia)
+    (Gestionar Sugerencias) <|-- (Revisar Sugerencia)
+    (Gestionar Sugerencias) <|-- (Implementar Sugerencia)
+    
+    (Crear Reserva) ..> (Verificar Disponibilidad) : <<include>>
+    (Modificar Reserva) ..> (Verificar Disponibilidad) : <<include>>
+    (Asignar Chofer) <.. (Verificar Disponibilidad de Chofer) : <<extend>>
+    (Realizar Pago) ..> (Procesar Pago) : <<include>>
+    (Crear Ticket) <.. (Adjuntar Archivo) : <<extend>>
+    (Implementar Sugerencia) <.. (Notificar Usuario) : <<extend>>
+}
+
+@enduml
+
+
+
+//**
+1
+@startuml
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+
+rectangle "Administrar Carros" {
+    Admin --> (Agregar Carro)
+    Admin --> (Editar Carro)
+    Admin --> (Eliminar Carro)
+}
+
+@enduml
+
+
+//*****
+2
+@startuml
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+
+rectangle "Gestionar Usuarios" {
+    Admin --> (Agregar Usuario)
+    Admin --> (Editar Usuario)
+    Admin --> (Eliminar Usuario)
+    Admin --> (Ver Usuarios)
+}
+
+@enduml
+
+
+//****
+3
+@startuml
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+actor Usuario as User
+actor Chofer as Driver
+
+rectangle "Gestionar Reservas" {
+    Admin --> (Crear Reserva)
+    Admin --> (Modificar Reserva)
+    Admin --> (Cancelar Reserva)
+    Admin --> (Asignar Chofer)
+    
+    User --> (Crear Reserva)
+    User --> (Modificar Reserva)
+    User --> (Cancelar Reserva)
+    
+    Driver --> (Asignar Chofer)
+    
+    (Crear Reserva) ..> (Verificar Disponibilidad) : <<include>>
+    (Modificar Reserva) ..> (Verificar Disponibilidad) : <<include>>
+    (Asignar Chofer) <.. (Verificar Disponibilidad de Chofer) : <<extend>>
+}
+
+@enduml
+
+
+//******
+4
+@startuml
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Usuario as User
+
+rectangle "Gestionar Pagos" {
+    User --> (Realizar Pago)
+    User --> (Verificar Pago)
+    
+    (Realizar Pago) ..> (Procesar Pago) : <<include>>
+}
+
+@enduml
+
+///****
+5
+@startuml
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+actor Usuario as User
+
+rectangle "Gestionar Tickets de Soporte" {
+    Admin --> (Crear Ticket)
+    Admin --> (Actualizar Ticket)
+    Admin --> (Cerrar Ticket)
+    
+    User --> (Crear Ticket)
+    User --> (Actualizar Ticket)
+    User --> (Cerrar Ticket)
+    
+    (Crear Ticket) <.. (Adjuntar Archivo) : <<extend>>
+}
+
+@enduml
+
+
+
+///*****
+6
+@startuml
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+actor Usuario as User
+
+rectangle "Gestionar Sugerencias" {
+    Admin --> (Revisar Sugerencia)
+    Admin --> (Implementar Sugerencia)
+    
+    User --> (Crear Sugerencia)
+    
+    (Implementar Sugerencia) <.. (Notificar Usuario) : <<extend>>
+}
+
+@enduml
+
+
+/*****************
+CORREGIDO
+
+
+@startuml
+
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+actor Usuario as User
+actor Asesor as Asesor
+actor Contador as Contador
+actor Mecánico as Mecánico
+
+rectangle "Sistema de Renta de Vehículos" {
+  
+    Admin --> (Gestionar Usuarios)
+    
+    Admin --> (Gestionar Tickets de Soporte)
+    Admin --> (Gestionar Sugerencias)
+    
+    User --> (Realizar Reservas)
+    User --> (Realizar Pagos)
+    User --> (Realizar Tickets de Soporte)
+    User --> (Realizar Sugerencias)
+    
+    
+    Asesor --> (Administrar Carros)
+    Asesor --> (Gestionar Pagos)
+    Asesor --> (Gestionar Reservas) 
+    
+    (Administrar Carros) <|-- (Entregar Carro)
+    (Administrar Carros) <|-- (Recibir Carro)
+    (Administrar Carros) <|-- (Revisar Carro)
+    
+   
+    (Gestionar Pagos) <|-- (Realizar Pago)
+    (Gestionar Pagos) <|-- (Verificar Pago)
+    
+    (Gestionar Tickets de Soporte) <|-- (Crear Ticket)
+    (Gestionar Tickets de Soporte) <|-- (Actualizar Ticket)
+    (Gestionar Tickets de Soporte) <|-- (Cerrar Ticket)
+    
+    (Gestionar Sugerencias) <|-- (Crear Sugerencia)
+    (Gestionar Sugerencias) <|-- (Revisar Sugerencia)
+    (Gestionar Sugerencias) <|-- (Implementar Sugerencia)
+    
+    (Realizar Reservas) ..>(Crear Reserva) : <<include>> 
+    (Realizar Reservas) ..>(Verificar Disponibilidad) : <<include>>
+    (Realizar Reservas) ..>(Modificar Reserva) : <<include>>
+    
+    
+    (Realizar Pago) ..> (Procesar Pago) : <<include>>
+    (Crear Ticket) <.. (Adjuntar Archivo) : <<extend>>
+    (Implementar Sugerencia) <.. (Notificar Usuario) : <<extend>>
+}
+
+@enduml
+
+*********************
+TERMINADO 
+@startuml
+
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+actor Cliente as Cliente
+actor Asesor as Asesor
+actor Contador as Contador
+actor Mecánico as Mecánico
+
+rectangle "Sistema de Renta de Vehículos" {
+  
+    Admin --> (Gestionar Usuarios)
+    Admin --> (Gestionar Tickets de Soporte)
+    Admin --> (Gestionar Sugerencias)
+    
+    Cliente --> (Realizar Reservas)
+    Cliente --> (Realizar Pagos)
+    Cliente --> (Realizar Tickets de Soporte)
+    Cliente --> (Realizar Sugerencias)
+    
+    Contador --> (Procesa pagos)
+    Contador --> (Realiza procesos contables)
+    
+    Asesor --> (Gestionar Pagos)
+    Asesor --> (Gestionar Reservas)
+    Asesor --> (Establece Garantías)
+    Asesor --> (Gestiona Seguros)
+
+
+    Mecánico -->(Revisa vehículos)
+ 
+    
+    (Gestionar Reservas) --|> (Entregar Carro)
+    (Gestionar Reservas) --|>  (Recibir Carro)
+    (Gestionar Reservas)--|>  (Revisar Carro)
+    
+  
+    (Gestionar Pagos) --|>  (Verificar Pago)
+    
+    (Gestionar Tickets de Soporte) --|>  (Crear Ticket)
+    (Gestionar Tickets de Soporte) --|>  (Procesar Ticket)
+    (Gestionar Tickets de Soporte) --|>  (Cerrar Ticket)
+    
+    (Gestionar Sugerencias) --|>  (Crear Sugerencia)
+    (Gestionar Sugerencias) --|>  (Revisar Sugerencia)
+    (Gestionar Sugerencias) --|>  (Implementar Sugerencia)
+    
+    (Realizar Reservas) ..>(Crear Reserva) : <<include>> 
+    (Realizar Reservas) ..>(Verificar Disponibilidad) : <<include>>
+    (Realizar Reservas) ..>(Modificar Reserva) : <<include>>
+    
+    
+    (Realizar Pagos) ..> (Procesar Pago) : <<include>>
+    (Crear Ticket) <.. (Adjuntar Archivo) : <<extend>>
+    (Implementar Sugerencia) <.. (Notificar Usuario) : <<extend>>
+
+    (Realiza procesos contables)..> (Administra historial de pagos) : <<include>>
+    (Realiza procesos contables)..> (Procesos de nómina) : <<include>>
+
+    (Revisa vehículos)--> (Analiza daños): <<include>>
+    (Revisa vehículos)--|> (Genera reportes de estado) <<include>>
+    (Analiza daños)--> (Genera proforma): <<include>>
+
+}
+
+@enduml@startuml
+
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+actor Cliente as Cliente
+actor Asesor as Asesor
+actor Contador as Contador
+actor Mecánico as Mecánico
+
+rectangle "Sistema de Renta de Vehículos" {
+  
+    Admin --> (Gestionar Usuarios)
+    Admin --> (Gestionar Tickets de Soporte)
+    Admin --> (Gestionar Sugerencias)
+    
+    Cliente --> (Realizar Reservas)
+    Cliente --> (Realizar Pagos)
+    Cliente --> (Realizar Tickets de Soporte)
+    Cliente --> (Realizar Sugerencias)
+    
+    Contador --> (Procesa pagos)
+    Contador --> (Realiza procesos contables)
+    
+    Asesor --> (Gestionar Pagos)
+    Asesor --> (Gestionar Reservas)
+    Asesor --> (Establece Garantías)
+    Asesor --> (Gestiona Seguros)
+
+
+    Mecánico -->(Revisa vehículos)
+ 
+    
+    (Gestionar Reservas) --|> (Entregar Carro)
+    (Gestionar Reservas) --|>  (Recibir Carro)
+    (Gestionar Reservas)--|>  (Revisar Carro)
+    
+  
+    (Gestionar Pagos) --|>  (Verificar Pago)
+    
+    (Gestionar Tickets de Soporte) --|>  (Crear Ticket)
+    (Gestionar Tickets de Soporte) --|>  (Procesar Ticket)
+    (Gestionar Tickets de Soporte) --|>  (Cerrar Ticket)
+    
+    (Gestionar Sugerencias) --|>  (Crear Sugerencia)
+    (Gestionar Sugerencias) --|>  (Revisar Sugerencia)
+    (Gestionar Sugerencias) --|>  (Implementar Sugerencia)
+    
+    (Realizar Reservas) ..>(Crear Reserva) : <<include>> 
+    (Realizar Reservas) ..>(Verificar Disponibilidad) : <<include>>
+    (Realizar Reservas) ..>(Modificar Reserva) : <<include>>
+    
+    
+    (Realizar Pagos) ..> (Procesar Pago) : <<include>>
+    (Crear Ticket) <.. (Adjuntar Archivo) : <<extend>>
+    (Implementar Sugerencia) <.. (Notificar Usuario) : <<extend>>
+
+    (Realiza procesos contables)..> (Administra historial de pagos) : <<include>>
+    (Realiza procesos contables)..> (Procesos de nómina) : <<include>>
+
+    (Revisa vehículos)--> (Analiza daños): <<include>>
+    (Revisa vehículos)--|> (Genera reportes de estado) <<include>>
+    (Analiza daños)--> (Genera proforma): <<include>>
+
+}
+
+@enduml
+
+
+******************
+Diagrama de Casos de Uso para el Administrador:
+@startuml
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Administrador as Admin
+
+rectangle "Sistema de Renta de Vehículos" {
+    Admin --> (Gestionar Usuarios)
+    Admin --> (Gestionar Tickets de Soporte)
+    Admin --> (Gestionar Sugerencias)
+    
+    (Gestionar Tickets de Soporte) --|> (Crear Ticket)
+    (Gestionar Tickets de Soporte) --|> (Procesar Ticket)
+    (Gestionar Tickets de Soporte) --|> (Cerrar Ticket)
+    
+    (Gestionar Sugerencias) --|> (Crear Sugerencia)
+    (Gestionar Sugerencias) --|> (Revisar Sugerencia)
+    (Gestionar Sugerencias) --|> (Implementar Sugerencia)
+    
+    (Implementar Sugerencia) <.. (Notificar Usuario) : <<extend>>
+}
+@enduml
+*****************************
+Diagrama de Casos de Uso para el Cliente:
+@startuml
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Cliente
+
+rectangle "Sistema de Renta de Vehículos" {
+    Cliente --> (Realizar Reservas)
+    Cliente --> (Realizar Pagos)
+    Cliente --> (Realizar Tickets de Soporte)
+    Cliente --> (Realizar Sugerencias)
+    
+    (Realizar Reservas) ..> (Crear Reserva) : <<include>> 
+    (Realizar Reservas) ..> (Verificar Disponibilidad) : <<include>>
+    (Realizar Reservas) ..> (Modificar Reserva) : <<include>>
+    
+    (Realizar Pagos) ..> (Procesar Pago) : <<include>>
+    (Realizar Tickets de Soporte) ..> (Crear Ticket) : <<include>>
+    (Crear Ticket) <.. (Adjuntar Archivo) : <<extend>>
+}
+@enduml
+******************************************
+Diagrama de Casos de Uso para el Asesor:
+@startuml
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Asesor
+
+rectangle "Sistema de Renta de Vehículos" {
+    Asesor --> (Gestionar Pagos)
+    Asesor --> (Gestionar Reservas)
+    Asesor --> (Establece Garantías)
+    Asesor --> (Gestiona Seguros)
+
+    (Gestionar Reservas) --|> (Entregar Carro)
+    (Gestionar Reservas) --|> (Recibir Carro)
+    (Gestionar Reservas) --|> (Revisar Carro)
+    
+    (Gestionar Pagos) --|> (Verificar Pago)
+}
+@enduml
+***********************************************
+Diagrama de Casos de Uso para el Contador:
+@startuml
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Contador
+
+rectangle "Sistema de Renta de Vehículos" {
+    Contador --> (Procesa pagos)
+    Contador --> (Realiza procesos contables)
+    
+    (Realiza procesos contables) ..> (Administra historial de pagos) : <<include>>
+    (Realiza procesos contables) ..> (Procesos de nómina) : <<include>>
+}
+@enduml
+***************************************************************************************
+Diagrama de Casos de Uso para el Mecánico:
+
+@startuml
+left to right direction
+skinparam actor {
+    BackgroundColor DarkSeaGreen
+}
+
+actor Mecánico
+
+rectangle "Sistema de Renta de Vehículos" {
+    Mecánico --> (Revisa vehículos)
+ 
+    (Revisa vehículos) --> (Analiza daños) : <<include>>
+    (Revisa vehículos) --|> (Genera reportes de estado) : <<include>>
+    (Analiza daños) --> (Genera proforma) : <<include>>
+}
+@enduml
+
+**********************************************
+POR ACTIVIDADES 
+Administrar Carros
+
+@startuml
+left to right direction
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor LightBlue
+  BorderColor DarkSlateGray
+  ArrowColor DarkSlateGray
+  ActorBorderColor DeepSkyBlue
+}
+
+actor "Administrador" as admin
+
+rectangle "Administrar Carros" {
+  usecase "Agregar Carro" as UC1
+  usecase "Modificar Carro" as UC2
+  usecase "Eliminar Carro" as UC3
+  usecase "Ver Detalles del Carro" as UC4
+  usecase "Listar Carros" as UC5
+}
+
+admin --> UC1
+admin --> UC2
+admin --> UC3
+admin --> UC4
+admin --> UC5
+
+@enduml
+***************************************
+Gestionar Usuarios
+@startuml
+left to right direction
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor LightBlue
+  BorderColor DarkSlateGray
+  ArrowColor DarkSlateGray
+  ActorBorderColor DeepSkyBlue
+}
+
+actor "Administrador" as admin
+
+rectangle "Gestionar Usuarios" {
+  usecase "Crear Usuario" as UC1
+  usecase "Modificar Usuario" as UC2
+  usecase "Eliminar Usuario" as UC3
+  usecase "Ver Perfil de Usuario" as UC4
+  usecase "Asignar Roles" as UC5
+}
+
+admin --> UC1
+admin --> UC2
+admin --> UC3
+admin --> UC4
+admin --> UC5
+
+@enduml
+**********************************
+Gestionar Reservas
+
+@startuml
+left to right direction
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor LightBlue
+  BorderColor DarkSlateGray
+  ArrowColor DarkSlateGray
+  ActorBorderColor DeepSkyBlue
+}
+
+actor "Administrador" as admin
+actor "Cliente" as cliente
+actor "Asesor" as asesor
+
+rectangle "Gestionar Reservas" {
+  usecase "Crear Reserva" as UC1
+  usecase "Modificar Reserva" as UC2
+  usecase "Cancelar Reserva" as UC3
+  usecase "Ver Detalles de Reserva" as UC4
+  usecase "Listar Reservas" as UC5
+}
+
+admin --> UC1
+admin --> UC2
+admin --> UC3
+admin --> UC4
+admin --> UC5
+
+cliente --> UC1
+cliente --> UC2
+cliente --> UC3
+cliente --> UC4
+
+asesor --> UC1
+asesor --> UC2
+asesor --> UC3
+asesor --> UC4
+asesor --> UC5
+
+@enduml
+
+*****************************************
+Gestionar Pagos
+@startuml
+left to right direction
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor LightBlue
+  BorderColor DarkSlateGray
+  ArrowColor DarkSlateGray
+  ActorBorderColor DeepSkyBlue
+}
+
+actor "Administrador" as admin
+actor "Cliente" as cliente
+actor "Asesor" as asesor
+
+rectangle "Gestionar Pagos" {
+  usecase "Registrar Pago" as UC1
+  usecase "Procesar Pago" as UC2
+  usecase "Generar Factura" as UC3
+  usecase "Ver Historial de Pagos" as UC4
+  usecase "Emitir Reembolso" as UC5
+}
+
+admin --> UC1
+admin --> UC2
+admin --> UC3
+admin --> UC4
+admin --> UC5
+
+cliente --> UC1
+cliente --> UC4
+
+asesor --> UC1
+asesor --> UC2
+asesor --> UC3
+asesor --> UC4
+
+@enduml
+
+************************************************
+Gestionar Tickets y Reportes
+@startuml
+left to right direction
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor LightBlue
+  BorderColor DarkSlateGray
+  ArrowColor DarkSlateGray
+  ActorBorderColor DeepSkyBlue
+}
+
+actor "Administrador" as admin
+actor "Cliente" as cliente
+actor "Asesor" as asesor
+
+rectangle "Gestionar Tickets y Reportes" {
+  usecase "Crear Ticket" as UC1
+  usecase "Responder Ticket" as UC2
+  usecase "Cerrar Ticket" as UC3
+  usecase "Generar Reporte" as UC4
+  usecase "Ver Estadísticas" as UC5
+}
+
+admin --> UC1
+admin --> UC2
+admin --> UC3
+admin --> UC4
+admin --> UC5
+
+cliente --> UC1
+
+asesor --> UC1
+asesor --> UC2
+asesor --> UC3
+asesor --> UC4
+
+@enduml
+***********************************
+Gestionar Sugerencias
+
+@startuml
+left to right direction
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor LightBlue
+  BorderColor DarkSlateGray
+  ArrowColor DarkSlateGray
+  ActorBorderColor DeepSkyBlue
+}
+
+actor "Administrador" as admin
+actor "Cliente" as cliente
+
+rectangle "Gestionar Sugerencias" {
+  usecase "Añadir Sugerencia" as UC1
+  usecase "Revisar Sugerencia" as UC2
+  usecase "Implementar Sugerencia" as UC3
+  usecase "Listar Sugerencias" as UC4
+  usecase "Responder Sugerencia" as UC5
+}
+
+admin --> UC2
+admin --> UC3
+admin --> UC4
+admin --> UC5
+
+cliente --> UC1
+cliente --> UC4
+
+@enduml
+

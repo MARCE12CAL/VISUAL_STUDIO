@@ -1,0 +1,60 @@
+//diagrma de secuencia
+//formato
+@startuml
+
+actor Administrador as Admin
+boundary "Interfaz de Configuración" as ConfigInterface
+control "Controlador Detalles de Contacto" as ContactController
+entity "Gestión de Coches" as CarManager
+database "Base de Datos de Alquileres" as RentalDatabase
+collections "Gestión de Consultas" as QueryManagement
+
+Admin -> ConfigInterface : Gestionar Configuración
+Admin -> ContactController : Gestionar Detalles de Contacto
+Admin -> CarManager : Gestionar Coches
+Admin -> RentalDatabase : Gestionar Alquileres
+Admin -> QueryManagement : Gestionar Consultas
+
+@enduml
+
+//***************************
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagrama de Secuencia</title>
+</head>
+<body>
+    <h2>Diagrama de Secuencia</h2>
+    <ol>
+        <li>Usuario envía solicitud de búsqueda de coches al Sistema.</li>
+        <li>Sistema consulta la base de datos de Coches.</li>
+        <li>Sistema devuelve la lista de coches al Usuario.</li>
+        <li>Usuario selecciona un coche y envía solicitud de alquiler.</li>
+        <li>Sistema solicita datos de alquiler y calcula el coste total.</li>
+        <li>Usuario confirma el alquiler.</li>
+        <li>Sistema guarda el alquiler en la tabla alquileres.</li>
+    </ol>
+</body>
+</html>
+
+///////********************************
+@startuml
+
+actor Usuario as User
+boundary "Sistema" as System
+database "Base de Datos de Coches" as CarDatabase
+database "Base de Datos de Alquileres" as RentalDatabase
+
+User -> System : Solicitud de búsqueda de coches
+System -> CarDatabase : Consultar base de datos de coches
+CarDatabase --> System : Devolver lista de coches
+System --> User : Devolver lista de coches
+
+User -> System : Solicitud de alquiler de coche
+System -> User : Solicitar datos de alquiler
+System -> System : Calcular coste total
+User -> System : Confirmar alquiler
+System -> RentalDatabase : Guardar alquiler en la tabla alquileres
+
+@enduml

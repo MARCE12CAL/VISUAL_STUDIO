@@ -1,0 +1,569 @@
+//
+//formato
+
+@startchen
+entity Usuario {
+}
+entity Vehiculo {
+}
+entity Reserva {
+}
+entity Pago {
+}
+entity TicketSoporte {
+}
+entity Sugerencia {
+}
+relationship Realiza {
+}
+relationship Incluye {
+}
+relationship Genera {
+}
+relationship Crea {
+}
+relationship Envia {
+}
+relationship Propone {
+}
+Usuario -N- Realiza
+Realiza -1- Reserva
+Vehiculo -1- Incluye
+Incluye -N- Reserva
+Reserva -1- Genera
+Genera -1- Pago
+Usuario -1- Crea
+Crea -N- TicketSoporte
+Usuario -1- Envia
+Envia -N- TicketSoporte
+Usuario -1- Propone
+Propone -N- Sugerencia
+@endchen
+
+
+//*****************
+<PLAintext>
+
+</PLAintext>
+
+@startuml
+entity "Administradores" {
+  * id_admin : int
+  --
+  nombre_admin : varchar(50)
+  contraseña_admin : varchar(255)
+}
+
+entity "Coches" {
+  * id_coche : int
+  --
+  marca : varchar(50)
+  modelo : varchar(50)
+  año : int
+  color : varchar(20)
+  tarifa_alquiler : decimal(10,2)
+}
+
+entity "Carrusel" {
+  * id_imagen : int
+  --
+  imagen : varchar(200)
+  id_coche : int (FK)
+}
+
+entity "Instalaciones" {
+  * id_instalacion : int
+  --
+  icono : varchar(50)
+  nombre : varchar(100)
+  descripcion : varchar(200)
+}
+
+entity "Coches_Instalaciones" {
+  * id_coche : int (FK)
+  * id_instalacion : int (FK)
+}
+
+entity "Servicios" {
+  * id_servicio : int
+  --
+  nombre : varchar(200)
+}
+
+entity "Coches_Servicios" {
+  * id_coche : int (FK)
+  * id_servicio : int (FK)
+}
+
+entity "Usuarios" {
+  * id_usuario : int
+  --
+  nombre_usuario : varchar(50)
+  contraseña : varchar(255)
+  email : varchar(100)
+  telefono : varchar(15)
+}
+
+entity "Alquileres" {
+  * id_alquiler : int
+  --
+  id_usuario : int (FK)
+  id_coche : int (FK)
+  fecha_inicio : date
+  fecha_fin : date
+  coste_total : decimal(10,2)
+}
+
+Carrusel }o--|| Coches : "id_coche"
+Coches_Instalaciones }o--|| Coches : "id_coche"
+Coches_Instalaciones }o--|| Instalaciones : "id_instalacion"
+Coches_Servicios }o--|| Coches : "id_coche"
+Coches_Servicios }o--|| Servicios : "id_servicio"
+Alquileres }o--|| Usuarios : "id_usuario"
+Alquileres }o--|| Coches : "id_coche"
+
+@enduml
+/////////////////*****
+FORMATO CORRECTO
+@startchen
+entity Administradores {
+  * id_admin : int
+  nombre_admin : varchar(50)
+  contraseña_admin : varchar(255)
+}
+entity Coches {
+  * id_coche : int
+  marca : varchar(50)
+  modelo : varchar(50)
+  año : int
+  color : varchar(20)
+  tarifa_alquiler : decimal(10,2)
+}
+entity Carrusel {
+  * id_imagen : int
+  imagen : varchar(200)
+  id_coche : int (FK)
+}
+entity Instalaciones {
+  * id_instalacion : int
+  icono : varchar(50)
+  nombre : varchar(100)
+  descripcion : varchar(200)
+}
+entity Coches_Instalaciones {
+  * id_coche : int (FK)
+  * id_instalacion : int (FK)
+}
+entity Servicios {
+  * id_servicio : int
+  nombre : varchar(200)
+}
+entity Coches_Servicios {
+  * id_coche : int (FK)
+  * id_servicio : int (FK)
+}
+entity Usuarios {
+  * id_usuario : int
+  nombre_usuario : varchar(50)
+  contraseña : varchar(255)
+  email : varchar(100)
+  telefono : varchar(15)
+}
+entity Alquileres {
+  * id_alquiler : int
+  id_usuario : int (FK)
+  id_coche : int (FK)
+  fecha_inicio : date
+  fecha_fin : date
+  coste_total : decimal(10,2)
+}
+
+relationship Tiene {
+}
+relationship Incluye {
+}
+relationship Realiza {
+}
+relationship Gestiona {
+}
+relationship Propone {
+}
+relationship Usa {
+}
+
+Coches -1- Incluye
+Incluye -N- Carrusel
+Usuarios -1- Realiza
+Realiza -N- Alquileres
+Alquileres -1- Incluye
+Incluye -1- Coches
+Coches -N- Tiene
+Tiene -1- Coches_Instalaciones
+Coches -N- Usa
+Usa -1- Coches_Servicios
+Usuarios -1- Gestiona
+Gestiona -N- Administradores
+Usuarios -1- Propone
+Propone -N- Servicios
+
+@endchen
+
+
+*********///////////////////
+UTILIZADO 1
+@startchen
+entity Administradores {
+}
+entity Coches {
+}
+entity Carrusel {
+}
+entity Instalaciones {
+}
+entity Coches_Instalaciones {
+}
+entity Servicios {
+}
+entity Coches_Servicios {
+}
+entity Usuarios {
+}
+entity Alquileres {
+}
+relationship Incluye_Carrusel {
+}
+relationship Tiene_Instalaciones {
+}
+relationship Usa_Servicios {
+}
+relationship Realiza_Alquiler {
+}
+relationship Incluye_Alquiler {
+}
+relationship Gestiona {
+}
+relationship Propone {
+}
+Coches -1- Incluye_Carrusel
+Incluye_Carrusel -N- Carrusel
+Coches -N- Tiene_Instalaciones
+Tiene_Instalaciones -1- Coches_Instalaciones
+Coches -N- Usa_Servicios
+Usa_Servicios -1- Coches_Servicios
+Usuarios -1- Realiza_Alquiler
+Realiza_Alquiler -N- Alquileres
+Coches -1- Incluye_Alquiler
+Incluye_Alquiler -N- Alquileres
+Usuarios -1- Gestiona
+Gestiona -N- Administradores
+Usuarios -1- Propone
+Propone -N- Servicios
+@endchen
+
+
+//************************
+UTILIZADO 2
+
+@startuml
+!include <archimate/Archimate>
+
+entity Administradores {
+  * id_admin : int
+  --
+  nombre_admin : varchar(50)
+  contraseña_admin : varchar(255)
+}
+
+entity Coches {
+  * id_coche : int
+  --
+  marca : varchar(50)
+  modelo : varchar(50)
+  año : int
+  color : varchar(20)
+  tarifa_alquiler : decimal(10,2)
+}
+
+entity Carrusel {
+  * id_imagen : int
+  --
+  imagen : varchar(200)
+  id_coche : int (FK)
+}
+
+entity Instalaciones {
+  * id_instalacion : int
+  --
+  icono : varchar(50)
+  nombre : varchar(100)
+  descripcion : varchar(200)
+}
+
+entity Coches_Instalaciones {
+  * id_coche : int (FK)
+  * id_instalacion : int (FK)
+}
+
+entity Servicios {
+  * id_servicio : int
+  --
+  nombre : varchar(200)
+}
+
+entity Coches_Servicios {
+  * id_coche : int (FK)
+  * id_servicio : int (FK)
+}
+
+entity Usuarios {
+  * id_usuario : int
+  --
+  nombre_usuario : varchar(50)
+  contraseña : varchar(255)
+  email : varchar(100)
+  telefono : varchar(15)
+}
+
+entity Alquileres {
+  * id_alquiler : int
+  --
+  id_usuario : int (FK)
+  id_coche : int (FK)
+  fecha_inicio : date
+  fecha_fin : date
+  coste_total : decimal(10,2)
+}
+
+Rel_Composition(Coches, Carrusel, "Incluye")
+Rel_Association(Usuarios, Alquileres, "Realiza")
+Rel_Composition(Alquileres, Coches, "Incluye")
+Rel_Association(Coches, Coches_Instalaciones, "Tiene")
+Rel_Association(Coches, Coches_Servicios, "Usa")
+Rel_Association(Usuarios, Administradores, "Gestiona")
+Rel_Association(Usuarios, Servicios, "Propone")
+
+@enduml
+////////****************
+SEGUNDO INTENTO SEGUNDO Diagrama
+
+@startchen
+entity Administradores {
+  id_admin <<key>>
+  nombre_admin
+}
+entity Coches {
+  id_coche <<key>>
+  marca
+  modelo
+}
+entity Usuarios {
+  id_usuario <<key>>
+  nombre_usuario
+}
+entity Alquileres {
+  id_alquiler <<key>>
+}
+relationship REALIZA {
+  fecha_inicio
+  fecha_fin
+}
+relationship INCLUYE {
+}
+REALIZA =1= Usuarios
+REALIZA -N- Alquileres
+INCLUYE =1= Coches
+INCLUYE -N- Alquileres
+@endchen
+
+********************************
+Gestión de Usuarios y Configuración
+@startchen
+
+entity USUARIOS {
+  id_usuario <<key>>
+  nombre_usuario
+  contraseña
+  email
+  telefono
+  tipo_usuario
+}
+
+entity ADMINISTRADORES <<weak>> {
+  id_admin <<key>>
+  nombre_admin
+  contraseña_admin
+}
+
+entity CLIENTES <<weak>> {
+}
+
+entity ASESORES <<weak>> {
+}
+
+entity MECANICOS <<weak>> {
+}
+
+entity CONTADORES <<weak>> {
+}
+
+relationship ES_TIPO {
+}
+
+ES_TIPO -1- USUARIOS
+ES_TIPO =1= ADMINISTRADORES
+ES_TIPO =1= CLIENTES
+ES_TIPO =1= ASESORES
+ES_TIPO =1= MECANICOS
+ES_TIPO =1= CONTADORES
+
+entity CONFIGURACION <<weak>> {
+  id_configuracion <<key>>
+  titulo_sitio
+  descripcion_sitio
+  mantenimiento
+}
+
+relationship CONFIGURA {
+}
+
+CONFIGURA -1- ADMINISTRADORES
+CONFIGURA =1= CONFIGURACION
+
+@endchen
+*****************************
+Gestión de Alquileres y Consultas
+
+@startchen
+
+entity CLIENTES <<weak>> {
+}
+
+entity COCHES {
+  id_coche <<key>>
+  marca
+  modelo
+  año
+  color
+  tarifa_alquiler
+}
+
+entity ALQUILERES <<weak>> {
+  id_alquiler <<key>>
+  fecha_inicio
+  fecha_fin
+  coste_total
+}
+
+relationship REALIZA_ALQUILER {
+}
+
+REALIZA_ALQUILER -1- CLIENTES
+REALIZA_ALQUILER =N= ALQUILERES
+
+relationship SE_ALQUILA {
+}
+
+SE_ALQUILA -1- COCHES
+SE_ALQUILA =N= ALQUILERES
+
+entity CONSULTAS_USUARIOS <<weak>> {
+  id_consulta <<key>>
+  asunto
+  mensaje
+  fecha
+  visto
+}
+
+relationship REALIZA_CONSULTA {
+}
+
+REALIZA_CONSULTA -1- CLIENTES
+REALIZA_CONSULTA =N= CONSULTAS_USUARIOS
+
+entity GESTION_RESERVAS <<weak>> {
+  id_reserva <<key>>
+  fecha_reserva
+  fecha_entrega
+  fecha_devolucion
+  estado
+}
+
+entity ASESORES <<weak>> {
+}
+
+relationship GESTIONA_RESERVA {
+}
+
+GESTIONA_RESERVA -1- ASESORES
+GESTIONA_RESERVA =N= GESTION_RESERVAS
+
+relationship RESERVA_COCHE {
+}
+
+RESERVA_COCHE -1- COCHES
+RESERVA_COCHE =N= GESTION_RESERVAS
+
+@endchen
+*************************************
+Gestión de Mantenimiento y Pagos
+
+@startchen
+
+entity COCHES {
+  id_coche <<key>>
+  marca
+  modelo
+  año
+  color
+  tarifa_alquiler
+}
+
+entity REVISIONES_VEHICULOS <<weak>> {
+  id_revision <<key>>
+  fecha
+  estado
+  reporte
+}
+
+entity MECANICOS <<weak>> {
+}
+
+relationship REALIZA_REVISION {
+}
+
+REALIZA_REVISION -1- MECANICOS
+REALIZA_REVISION =N= REVISIONES_VEHICULOS
+
+relationship REVISA_COCHE {
+}
+
+REVISA_COCHE -1- COCHES
+REVISA_COCHE =N= REVISIONES_VEHICULOS
+
+entity GESTION_PAGOS <<weak>> {
+  id_gestion_pago <<key>>
+  fecha
+  monto
+  estado
+}
+
+entity CONTADORES <<weak>> {
+}
+
+entity CLIENTES <<weak>> {
+}
+
+relationship GESTIONA_PAGO {
+}
+
+GESTIONA_PAGO -1- CONTADORES
+GESTIONA_PAGO =N= GESTION_PAGOS
+
+relationship PAGO_CLIENTE {
+}
+
+PAGO_CLIENTE -1- CLIENTES
+PAGO_CLIENTE =N= GESTION_PAGOS
+
+@endchen
+

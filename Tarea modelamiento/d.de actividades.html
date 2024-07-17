@@ -1,0 +1,158 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//*****************************************
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagrama de Actividades</title>
+</head>
+<body>
+    <h2>Diagrama de Actividades</h2>
+    <ol>
+        <li>Usuario se registra</li>
+        <li>Usuario inicia sesión</li>
+        <li>Usuario busca coche</li>
+        <li>Usuario selecciona coche</li>
+        <li>Usuario proporciona fechas de alquiler</li>
+        <li>Sistema calcula coste</li>
+        <li>Usuario confirma alquiler</li>
+        <li>Sistema guarda información en alquileres</li>
+    </ol>
+</body>
+</html>
+//////////////////////////////*********************************
+@startuml
+|Usuario|
+start
+:Registrarse;
+:Iniciar sesión;
+:Buscar coche;
+:Seleccionar coche;
+:Proporcionar fechas de alquiler;
+|Sistema|
+:Calcular coste;
+|Usuario|
+:Confirmar alquiler;
+|Sistema|
+:Guardar información en alquileres;
+stop
+@enduml
+
+
+******************************************************
+GENERAL ROLES 
+
+@startuml
+|Usuario|
+start
+:Registrarse;
+:Iniciar sesión;
+:Buscar coche;
+:Seleccionar coche;
+:Proporcionar fechas de alquiler;
+
+|Sistema|
+:Verificar disponibilidad del coche;
+if (¿Coche disponible?) then (sí)
+  :Calcular coste;
+  :Mostrar servicios e instalaciones disponibles;
+else (no)
+  :Mostrar mensaje de no disponibilidad;
+  stop
+endif
+
+|Usuario|
+:Seleccionar servicios adicionales (opcional);
+:Confirmar alquiler;
+
+|Sistema|
+:Crear reserva en GestionReservas;
+:Generar contrato de alquiler;
+:Calcular garantía;
+
+|Usuario|
+:Aceptar términos y condiciones;
+:Realizar pago inicial;
+
+|Sistema|
+:Procesar pago en GestionPagos;
+:Registrar alquiler en Alquileres;
+:Actualizar HistorialPagos;
+
+|Administrador|
+:Revisar y aprobar alquiler;
+
+|Sistema|
+if (¿Alquiler aprobado?) then (sí)
+  :Enviar confirmación al usuario;
+  :Actualizar estado en GestionReservas;
+else (no)
+  :Enviar notificación de rechazo al usuario;
+  :Reembolsar pago inicial;
+  stop
+endif
+
+|Usuario|
+:Recibir confirmación de alquiler;
+
+|Sistema|
+:Generar recordatorio de recogida del coche;
+
+|Mecánico|
+:Realizar revisión pre-alquiler;
+:Registrar revisión en RevisionesVehiculos;
+
+|Usuario|
+:Recoger coche;
+:Usar coche durante período de alquiler;
+:Devolver coche;
+
+|Mecánico|
+:Realizar revisión post-alquiler;
+:Actualizar RevisionesVehiculos;
+
+|Sistema|
+if (¿Daños o problemas?) then (sí)
+  :Generar Proforma para reparaciones;
+  :Actualizar GestionGarantias;
+else (no)
+  :Cerrar alquiler;
+endif
+
+:Actualizar estado del coche;
+:Finalizar alquiler en Alquileres;
+:Actualizar HistorialPagos;
+
+|Usuario|
+:Recibir factura final;
+
+stop
+@enduml

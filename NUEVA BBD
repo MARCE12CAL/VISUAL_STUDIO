@@ -1,0 +1,367 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `alquiler_coches_brayner`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `administradores`
+--
+
+CREATE TABLE administradores (
+  id_admin int NOT NULL AUTO_INCREMENT,
+  nombre_admin varchar(50) NOT NULL,
+  contraseña_admin varchar(255) NOT NULL,
+  PRIMARY KEY (id_admin)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `coches`
+--
+
+CREATE TABLE coches (
+  id_coche int NOT NULL AUTO_INCREMENT,
+  marca varchar(50) NOT NULL,
+  modelo varchar(50) NOT NULL,
+  año int NOT NULL,
+  color varchar(20) NOT NULL,
+  tarifa_alquiler decimal(10,2) NOT NULL,
+  PRIMARY KEY (id_coche)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carrusel`
+--
+
+CREATE TABLE carrusel (
+  id_imagen int NOT NULL AUTO_INCREMENT,
+  imagen varchar(200) NOT NULL,
+  id_coche int DEFAULT NULL,
+  PRIMARY KEY (id_imagen),
+  KEY id_coche (id_coche),
+  CONSTRAINT carrusel_ibfk_1 FOREIGN KEY (id_coche) REFERENCES coches (id_coche) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `instalaciones`
+--
+
+CREATE TABLE instalaciones (
+  id_instalacion int NOT NULL AUTO_INCREMENT,
+  icono varchar(50) NOT NULL,
+  nombre varchar(100) NOT NULL,
+  descripcion varchar(200) NOT NULL,
+  PRIMARY KEY (id_instalacion)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `coches_instalaciones`
+--
+
+CREATE TABLE coches_instalaciones (
+  id_coche int NOT NULL,
+  id_instalacion int NOT NULL,
+  PRIMARY KEY (id_coche, id_instalacion),
+  KEY id_instalacion (id_instalacion),
+  CONSTRAINT coches_instalaciones_ibfk_1 FOREIGN KEY (id_coche) REFERENCES coches (id_coche) ON DELETE CASCADE,
+  CONSTRAINT coches_instalaciones_ibfk_2 FOREIGN KEY (id_instalacion) REFERENCES instalaciones (id_instalacion) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `servicios`
+--
+
+CREATE TABLE servicios (
+  id_servicio int NOT NULL AUTO_INCREMENT,
+  nombre varchar(200) NOT NULL,
+  PRIMARY KEY (id_servicio)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `coches_servicios`
+--
+
+CREATE TABLE coches_servicios (
+  id_coche int NOT NULL,
+  id_servicio int NOT NULL,
+  PRIMARY KEY (id_coche, id_servicio),
+  KEY id_servicio (id_servicio),
+  CONSTRAINT coches_servicios_ibfk_1 FOREIGN KEY (id_coche) REFERENCES coches (id_coche) ON DELETE CASCADE,
+  CONSTRAINT coches_servicios_ibfk_2 FOREIGN KEY (id_servicio) REFERENCES servicios (id_servicio) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE usuarios (
+  id_usuario int NOT NULL AUTO_INCREMENT,
+  nombre_usuario varchar(50) NOT NULL,
+  contraseña varchar(255) NOT NULL,
+  email varchar(100) NOT NULL,
+  telefono varchar(15) NOT NULL,
+  tipo_usuario enum('Administrador', 'Asesor', 'Cliente', 'Mecánico', 'Contador') NOT NULL,
+  PRIMARY KEY (id_usuario),
+  UNIQUE KEY email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `alquileres`
+--
+
+CREATE TABLE alquileres (
+  id_alquiler int NOT NULL AUTO_INCREMENT,
+  id_usuario int NOT NULL,
+  id_coche int NOT NULL,
+  fecha_inicio date NOT NULL,
+  fecha_fin date NOT NULL,
+  coste_total decimal(10,2) NOT NULL,
+  PRIMARY KEY (id_alquiler),
+  KEY id_usuario (id_usuario),
+  KEY id_coche (id_coche),
+  CONSTRAINT alquileres_ibfk_1 FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario) ON DELETE CASCADE,
+  CONSTRAINT alquileres_ibfk_2 FOREIGN KEY (id_coche) REFERENCES coches (id_coche) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `consultas_usuarios`
+--
+
+CREATE TABLE consultas_usuarios (
+  id_consulta int NOT NULL AUTO_INCREMENT,
+  id_usuario int,
+  nombre varchar(50) NOT NULL,
+  email varchar(150) NOT NULL,
+  asunto varchar(200) NOT NULL,
+  mensaje varchar(500) NOT NULL,
+  fecha timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  visto tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (id_consulta),
+  KEY id_usuario (id_usuario),
+  CONSTRAINT consultas_usuarios_ibfk_1 FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalles_contacto`
+--
+
+CREATE TABLE detalles_contacto (
+  id_contacto int NOT NULL AUTO_INCREMENT,
+  direccion varchar(200) NOT NULL,
+  mapa varchar(100) NOT NULL,
+  telefono1 varchar(15) NOT NULL,
+  telefono2 varchar(15) NOT NULL,
+  email varchar(50) NOT NULL,
+  facebook varchar(100) NOT NULL,
+  instagram varchar(100) NOT NULL,
+  whatsapp varchar(100) NOT NULL,
+  iframe_mapa varchar(300) NOT NULL,
+  PRIMARY KEY (id_contacto)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `configuracion`
+--
+
+CREATE TABLE configuracion (
+  id_configuracion int NOT NULL AUTO_INCREMENT,
+  titulo_sitio varchar(20) NOT NULL,
+  descripcion_sitio varchar(250) NOT NULL,
+  mantenimiento tinyint(1) NOT NULL,
+  id_admin int DEFAULT NULL,
+  id_contacto int DEFAULT NULL,
+  PRIMARY KEY (id_configuracion),
+  KEY id_admin (id_admin),
+  KEY id_contacto (id_contacto),
+  CONSTRAINT configuracion_ibfk_1 FOREIGN KEY (id_admin) REFERENCES administradores (id_admin) ON DELETE SET NULL,
+  CONSTRAINT configuracion_ibfk_2 FOREIGN KEY (id_contacto) REFERENCES detalles_contacto (id_contacto) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historial_pagos`
+--
+
+CREATE TABLE historial_pagos (
+  id_historial int NOT NULL AUTO_INCREMENT,
+  id_usuario int NOT NULL,
+  fecha date NOT NULL,
+  monto_total decimal(10,2) NOT NULL,
+  PRIMARY KEY (id_historial),
+  KEY id_usuario (id_usuario),
+  CONSTRAINT historial_pagos_ibfk_1 FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `procesos_nomina`
+--
+
+CREATE TABLE procesos_nomina (
+  id_nomina int NOT NULL AUTO_INCREMENT,
+  id_usuario int NOT NULL,
+  fecha date NOT NULL,
+  monto decimal(10,2) NOT NULL,
+  estado varchar(50) NOT NULL,
+  PRIMARY KEY (id_nomina),
+  KEY id_usuario (id_usuario),
+  CONSTRAINT procesos_nomina_ibfk_1 FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `gestion_pagos`
+--
+
+CREATE TABLE gestion_pagos (
+  id_gestion_pago int NOT NULL AUTO_INCREMENT,
+  id_usuario int NOT NULL,
+  id_cliente int NOT NULL,
+  fecha date NOT NULL,
+  monto decimal(10,2) NOT NULL,
+  estado varchar(50) NOT NULL,
+  PRIMARY KEY (id_gestion_pago),
+  KEY id_usuario (id_usuario),
+  KEY id_cliente (id_cliente),
+  CONSTRAINT gestion_pagos_ibfk_1 FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario) ON DELETE CASCADE,
+  CONSTRAINT gestion_pagos_ibfk_2 FOREIGN KEY (id_cliente) REFERENCES usuarios (id_usuario) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `gestion_reservas`
+--
+
+CREATE TABLE gestion_reservas (
+  id_reserva int NOT NULL AUTO_INCREMENT,
+  id_usuario int NOT NULL,
+  id_coche int NOT NULL,
+  fecha_reserva date NOT NULL,
+  fecha_entrega date NOT NULL,
+  fecha_devolucion date NOT NULL,
+  estado varchar(50) NOT NULL,
+  PRIMARY KEY (id_reserva),
+  KEY id_usuario (id_usuario),
+  KEY id_coche (id_coche),
+  CONSTRAINT gestion_reservas_ibfk_1 FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario) ON DELETE CASCADE,
+  CONSTRAINT gestion_reservas_ibfk_2 FOREIGN KEY (id_coche) REFERENCES coches (id_coche) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `gestion_garantias`
+--
+
+CREATE TABLE gestion_garantias (
+  id_garantia int NOT NULL AUTO_INCREMENT,
+  id_usuario int NOT NULL,
+  id_coche int NOT NULL,
+  fecha date NOT NULL,
+  monto decimal(10,2) NOT NULL,
+  estado varchar(50) NOT NULL,
+  PRIMARY KEY (id_garantia),
+  KEY id_usuario (id_usuario),
+  KEY id_coche (id_coche),
+  CONSTRAINT gestion_garantias_ibfk_1 FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario) ON DELETE CASCADE,
+  CONSTRAINT gestion_garantias_ibfk_2 FOREIGN KEY (id_coche) REFERENCES coches (id_coche) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `gestion_seguros`
+--
+
+CREATE TABLE gestion_seguros (
+  id_seguro int NOT NULL AUTO_INCREMENT,
+  id_usuario int NOT NULL,
+  id_coche int NOT NULL,
+  fecha_inicio date NOT NULL,
+  fecha_fin date NOT NULL,
+  monto decimal(10,2) NOT NULL,
+  estado varchar(50) NOT NULL,
+  PRIMARY KEY (id_seguro),
+  KEY id_usuario (id_usuario),
+  KEY id_coche (id_coche),
+  CONSTRAINT gestion_seguros_ibfk_1 FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario) ON DELETE CASCADE,
+  CONSTRAINT gestion_seguros_ibfk_2 FOREIGN KEY (id_coche) REFERENCES coches (id_coche) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `revisiones_vehiculos`
+--
+
+CREATE TABLE revisiones_vehiculos (
+  id_revision int NOT NULL AUTO_INCREMENT,
+  id_usuario int NOT NULL,
+  id_coche int NOT NULL,
+  fecha date NOT NULL,
+  estado varchar(50) NOT NULL,
+  reporte text NOT NULL,
+  PRIMARY KEY (id_revision),
+  KEY id_usuario (id_usuario),
+  KEY id_coche (id_coche),
+  CONSTRAINT revisiones_vehiculos_ibfk_1 FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario) ON DELETE CASCADE,
+  CONSTRAINT revisiones_vehiculos_ibfk_2 FOREIGN KEY (id_coche) REFERENCES coches (id_coche) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `proformas`
+--
+
+CREATE TABLE proformas (
+  id_proforma int NOT NULL AUTO_INCREMENT,
+  id_revision int NOT NULL,
+  fecha date NOT NULL,
+  monto_total decimal(10,2) NOT NULL,
+  estado varchar(50) NOT NULL,
+  PRIMARY KEY (id_proforma),
+  KEY id_revision (id_revision),
+  CONSTRAINT proformas_ibfk_1 FOREIGN KEY (id_revision) REFERENCES revisiones_vehiculos (id_revision) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

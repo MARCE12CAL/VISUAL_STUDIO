@@ -1,0 +1,660 @@
+//diagrama de clase
+//formato
+@startuml
+entity Vehiculo {
+idVehiculo : int
+marca : string
+modelo : string
+tipo : string
+capacidadPasajeros : int
+}
+entity Reserva {
+idReserva : int
+fechaInicio : date
+fechaFin : date
+estado : string
+tipoServicio : string
+}
+entity Usuario {
+idUsuario : int
+nombre : string
+correo : string
+contraseña : string
+tipoUsuario : string
+}
+entity Pago {
+idPago : int
+monto : decimal
+fechaPago : date
+estado : string
+}
+entity TicketSoporte {
+idTicket : int
+asunto : string
+descripcion : string
+estado : string
+}
+entity Sugerencia {
+idSugerencia : int
+descripcion : string
+estado : string
+}
+Vehiculo "1" -- "0.." Reserva : incluye
+Usuario "1" -- "0.." Reserva : realiza
+Reserva "1" -- "0.." Pago : genera
+Usuario "1" -- "0.." TicketSoporte : crea
+Usuario "1" -- "0..*" Sugerencia : propone
+enum TipoServicio {
+ESTANDAR
+PUERTA_A_PUERTA
+CON_CHOFER
+}
+Reserva .. TipoServicio
+@enduml
+
+//********************
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagrama de Clases</title>
+    <style>
+        .class { border: 1px solid #000; padding: 10px; margin: 10px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="class">
+        <h3>Administrador</h3>
+        <p>id_admin: int</p>
+        <p>nombre_admin: varchar</p>
+        <p>contraseña_admin: varchar</p>
+    </div>
+    <div class="class">
+        <h3>Coche</h3>
+        <p>id_coche: int</p>
+        <p>marca: varchar</p>
+        <p>modelo: varchar</p>
+        <p>año: int</p>
+        <p>color: varchar</p>
+        <p>tarifa_alquiler: decimal</p>
+    </div>
+    <div class="class">
+        <h3>Carrusel</h3>
+        <p>id_imagen: int</p>
+        <p>imagen: varchar</p>
+        <p>id_coche: int (FK)</p>
+    </div>
+    <div class="class">
+        <h3>Instalación</h3>
+        <p>id_instalacion: int</p>
+        <p>icono: varchar</p>
+        <p>nombre: varchar</p>
+        <p>descripcion: varchar</p>
+    </div>
+    <div class="class">
+        <h3>Servicio</h3>
+        <p>id_servicio: int</p>
+        <p>nombre: varchar</p>
+    </div>
+    <div class="class">
+        <h3>Usuario</h3>
+        <p>id_usuario: int</p>
+        <p>nombre_usuario: varchar</p>
+        <p>contraseña: varchar</p>
+        <p>email: varchar</p>
+        <p>telefono: varchar</p>
+    </div>
+    <div class="class">
+        <h3>Alquiler</h3>
+        <p>id_alquiler: int</p>
+        <p>id_usuario: int (FK)</p>
+        <p>id_coche: int (FK)</p>
+        <p>fecha_inicio: date</p>
+        <p>fecha_fin: date</p>
+        <p>coste_total: decimal</p>
+    </div>
+</body>
+</html>
+
+************************************************************
+<PLAINTEXT></PLAINTEXT>
+@startuml
+
+entity Administrador {
+    id_admin: int
+    nombre_admin: varchar
+    contraseña_admin: varchar
+}
+
+entity Coche {
+    id_coche: int
+    marca: varchar
+    modelo: varchar
+    año: int
+    color: varchar
+    tarifa_alquiler: decimal
+}
+
+entity Carrusel {
+    id_imagen: int
+    imagen: varchar
+    id_coche: int (FK)
+}
+
+entity Instalacion {
+    id_instalacion: int
+    icono: varchar
+    nombre: varchar
+    descripcion: varchar
+}
+
+entity Servicio {
+    id_servicio: int
+    nombre: varchar
+}
+
+entity Usuario {
+    id_usuario: int
+    nombre_usuario: varchar
+    contraseña: varchar
+    email: varchar
+    telefono: varchar
+}
+
+entity Alquiler {
+    id_alquiler: int
+    id_usuario: int (FK)
+    id_coche: int (FK)
+    fecha_inicio: date
+    fecha_fin: date
+    coste_total: decimal
+}
+
+Administrador "1" -- "0..*" Coche : gestiona
+Usuario "1" -- "0..*" Alquiler : realiza
+Coche "1" -- "0..*" Carrusel : tiene
+Coche "1" -- "0..*" Instalacion : posee
+Coche "1" -- "0..*" Servicio : ofrece
+Usuario "1" -- "0..*" Alquiler : realiza
+
+@enduml
+
+***********************************************************************
+
+GESTION DE VEHICULOS
+
+@startuml
+package "Gestión de Vehículos" {
+  entity Coches {
+    id_coche : int
+    marca : string
+    modelo : string
+    año : int
+    color : string
+    tarifa_alquiler : decimal
+  }
+
+  entity Instalaciones {
+    id_instalacion : int
+    icono : string
+    nombre : string
+    descripcion : string
+  }
+
+  entity Servicios {
+    id_servicio : int
+    nombre : string
+  }
+
+  entity CochesInstalaciones {
+    id_coche : int
+    id_instalacion : int
+  }
+
+  entity CochesServicios {
+    id_coche : int
+    id_servicio : int
+  }
+
+  entity RevisionesVehiculos {
+    id_revision : int
+    id_usuario : int
+    id_coche : int
+    fecha : date
+    estado : string
+    reporte : text
+  }
+
+  Coches "1" -- "0..*" CochesInstalaciones
+  Instalaciones "1" -- "0..*" CochesInstalaciones
+  Coches "1" -- "0..*" CochesServicios
+  Servicios "1" -- "0..*" CochesServicios
+  Coches "1" -- "0..*" RevisionesVehiculos
+}
+@enduml
+***********************************************************************
+Gestión de Usuarios
+
+@startuml
+package "Gestión de Usuarios" {
+  entity Usuarios {
+    id_usuario : int
+    nombre_usuario : string
+    contraseña : string
+    email : string
+    telefono : string
+    tipo_usuario : enum
+  }
+
+  entity Administradores {
+    id_admin : int
+    nombre_admin : string
+    contraseña_admin : string
+  }
+
+  enum TipoUsuario {
+    Administrador
+    Asesor
+    Cliente
+    Mecánico
+    Contador
+  }
+
+  Usuarios .. TipoUsuario
+}
+@enduml
+
+
+***********************************************************************
+Gestión de Alquileres
+
+@startuml
+package "Gestión de Alquileres" {
+  entity Alquileres {
+    id_alquiler : int
+    id_usuario : int
+    id_coche : int
+    fecha_inicio : date
+    fecha_fin : date
+    coste_total : decimal
+  }
+
+  entity GestionReservas {
+    id_reserva : int
+    id_usuario : int
+    id_coche : int
+    fecha_reserva : date
+    fecha_entrega : date
+    fecha_devolucion : date
+    estado : string
+  }
+
+  entity Usuarios {
+    id_usuario : int
+  }
+
+  entity Coches {
+    id_coche : int
+  }
+
+  Usuarios "1" -- "0..*" Alquileres
+  Coches "1" -- "0..*" Alquileres
+  Usuarios "1" -- "0..*" GestionReservas
+  Coches "1" -- "0..*" GestionReservas
+}
+@enduml
+
+***********************************************************************
+Gestión Financiera
+
+@startuml
+package "Gestión Financiera" {
+  entity HistorialPagos {
+    id_historial : int
+    id_usuario : int
+    fecha : date
+    monto_total : decimal
+  }
+
+  entity ProcesosNomina {
+    id_nomina : int
+    id_usuario : int
+    fecha : date
+    monto : decimal
+    estado : string
+  }
+
+  entity GestionPagos {
+    id_gestion_pago : int
+    id_usuario : int
+    id_cliente : int
+    fecha : date
+    monto : decimal
+    estado : string
+  }
+
+  entity GestionGarantias {
+    id_garantia : int
+    id_usuario : int
+    id_coche : int
+    fecha : date
+    monto : decimal
+    estado : string
+  }
+
+  entity GestionSeguros {
+    id_seguro : int
+    id_usuario : int
+    id_coche : int
+    fecha_inicio : date
+    fecha_fin : date
+    monto : decimal
+    estado : string
+  }
+
+  entity Proformas {
+    id_proforma : int
+    id_revision : int
+    fecha : date
+    monto_total : decimal
+    estado : string
+  }
+
+  entity Usuarios {
+    id_usuario : int
+  }
+
+  entity Coches {
+    id_coche : int
+  }
+
+  entity RevisionesVehiculos {
+    id_revision : int
+  }
+
+  Usuarios "1" -- "0..*" HistorialPagos
+  Usuarios "1" -- "0..*" ProcesosNomina
+  Usuarios "1" -- "0..*" GestionPagos
+  Usuarios "1" -- "0..*" GestionGarantias
+  Coches "1" -- "0..*" GestionGarantias
+  Usuarios "1" -- "0..*" GestionSeguros
+  Coches "1" -- "0..*" GestionSeguros
+  RevisionesVehiculos "1" -- "0..*" Proformas
+}
+@enduml
+
+
+***********************************************************************
+Gestión de Sitio Web
+
+@startuml
+package "Gestión de Sitio Web" {
+  entity Carrusel {
+    id_imagen : int
+    imagen : string
+    id_coche : int
+  }
+
+  entity ConsultasUsuarios {
+    id_consulta : int
+    id_usuario : int
+    nombre : string
+    email : string
+    asunto : string
+    mensaje : string
+    fecha : timestamp
+    visto : boolean
+  }
+
+  entity DetallesContacto {
+    id_contacto : int
+    direccion : string
+    mapa : string
+    telefono1 : string
+    telefono2 : string
+    email : string
+    facebook : string
+    instagram : string
+    whatsapp : string
+    iframe_mapa : string
+  }
+
+  entity Configuracion {
+    id_configuracion : int
+    titulo_sitio : string
+    descripcion_sitio : string
+    mantenimiento : boolean
+    id_admin : int
+    id_contacto : int
+  }
+
+  entity Coches {
+    id_coche : int
+  }
+
+  entity Usuarios {
+    id_usuario : int
+  }
+
+  entity Administradores {
+    id_admin : int
+  }
+
+  Coches "1" -- "0..*" Carrusel
+  Usuarios "1" -- "0..*" ConsultasUsuarios
+  Administradores "1" -- "0..1" Configuracion
+  DetallesContacto "1" -- "0..1" Configuracion
+}
+@enduml
+***********************************************************************
+GENERAL
+***********************************************************************
+@startuml
+package "Gestión de Vehículos" {
+  entity Coches {
+    id_coche : int
+    marca : string
+    modelo : string
+    año : int
+    color : string
+    tarifa_alquiler : decimal
+  }
+
+  entity Instalaciones {
+    id_instalacion : int
+    icono : string
+    nombre : string
+    descripcion : string
+  }
+
+  entity Servicios {
+    id_servicio : int
+    nombre : string
+  }
+
+  entity CochesInstalaciones {
+    id_coche : int
+    id_instalacion : int
+  }
+
+  entity CochesServicios {
+    id_coche : int
+    id_servicio : int
+  }
+
+  entity RevisionesVehiculos {
+    id_revision : int
+    id_usuario : int
+    id_coche : int
+    fecha : date
+    estado : string
+    reporte : text
+  }
+}
+
+package "Gestión de Usuarios" {
+  entity Usuarios {
+    id_usuario : int
+    nombre_usuario : string
+    contraseña : string
+    email : string
+    telefono : string
+    tipo_usuario : enum
+  }
+
+  entity Administradores {
+    id_admin : int
+    nombre_admin : string
+    contraseña_admin : string
+  }
+
+  enum TipoUsuario {
+    Administrador
+    Asesor
+    Cliente
+    Mecánico
+    Contador
+  }
+}
+
+package "Gestión de Alquileres" {
+  entity Alquileres {
+    id_alquiler : int
+    id_usuario : int
+    id_coche : int
+    fecha_inicio : date
+    fecha_fin : date
+    coste_total : decimal
+  }
+
+  entity GestionReservas {
+    id_reserva : int
+    id_usuario : int
+    id_coche : int
+    fecha_reserva : date
+    fecha_entrega : date
+    fecha_devolucion : date
+    estado : string
+  }
+}
+
+package "Gestión Financiera" {
+  entity HistorialPagos {
+    id_historial : int
+    id_usuario : int
+    fecha : date
+    monto_total : decimal
+  }
+
+  entity ProcesosNomina {
+    id_nomina : int
+    id_usuario : int
+    fecha : date
+    monto : decimal
+    estado : string
+  }
+
+  entity GestionPagos {
+    id_gestion_pago : int
+    id_usuario : int
+    id_cliente : int
+    fecha : date
+    monto : decimal
+    estado : string
+  }
+
+  entity GestionGarantias {
+    id_garantia : int
+    id_usuario : int
+    id_coche : int
+    fecha : date
+    monto : decimal
+    estado : string
+  }
+
+  entity GestionSeguros {
+    id_seguro : int
+    id_usuario : int
+    id_coche : int
+    fecha_inicio : date
+    fecha_fin : date
+    monto : decimal
+    estado : string
+  }
+
+  entity Proformas {
+    id_proforma : int
+    id_revision : int
+    fecha : date
+    monto_total : decimal
+    estado : string
+  }
+}
+
+package "Gestión de Sitio Web" {
+  entity Carrusel {
+    id_imagen : int
+    imagen : string
+    id_coche : int
+  }
+
+  entity ConsultasUsuarios {
+    id_consulta : int
+    id_usuario : int
+    nombre : string
+    email : string
+    asunto : string
+    mensaje : string
+    fecha : timestamp
+    visto : boolean
+  }
+
+  entity DetallesContacto {
+    id_contacto : int
+    direccion : string
+    mapa : string
+    telefono1 : string
+    telefono2 : string
+    email : string
+    facebook : string
+    instagram : string
+    whatsapp : string
+    iframe_mapa : string
+  }
+
+  entity Configuracion {
+    id_configuracion : int
+    titulo_sitio : string
+    descripcion_sitio : string
+    mantenimiento : boolean
+    id_admin : int
+    id_contacto : int
+  }
+}
+
+Coches "1" -- "0..*" CochesInstalaciones
+Instalaciones "1" -- "0..*" CochesInstalaciones
+Coches "1" -- "0..*" CochesServicios
+Servicios "1" -- "0..*" CochesServicios
+Usuarios "1" -- "0..*" Alquileres
+Coches "1" -- "0..*" Alquileres
+Usuarios "1" -- "0..*" ConsultasUsuarios
+Administradores "1" -- "0..1" Configuracion
+DetallesContacto "1" -- "0..1" Configuracion
+Usuarios "1" -- "0..*" HistorialPagos
+Usuarios "1" -- "0..*" ProcesosNomina
+Usuarios "1" -- "0..*" GestionPagos
+Usuarios "1" -- "0..*" GestionReservas
+Coches "1" -- "0..*" GestionReservas
+Usuarios "1" -- "0..*" GestionGarantias
+Coches "1" -- "0..*" GestionGarantias
+Usuarios "1" -- "0..*" GestionSeguros
+Coches "1" -- "0..*" GestionSeguros
+Usuarios "1" -- "0..*" RevisionesVehiculos
+Coches "1" -- "0..*" RevisionesVehiculos
+RevisionesVehiculos "1" -- "0..*" Proformas
+Coches "1" -- "0..*" Carrusel
+
+Usuarios .. TipoUsuario
+
+@enduml
